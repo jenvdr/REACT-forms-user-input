@@ -15,7 +15,7 @@ const SimpleInput = (props) => {
 
   if (enteredNameIsValid && enteredEmailIsValid) {
     formIsValid = true;
-  }
+  };
 
   const emailInputChangeHandler = (event) => {
     setEnteredEmail(event.target.value);
@@ -27,7 +27,7 @@ const SimpleInput = (props) => {
 
   const nameInputBlurHandler = event => {
     setEnteredNameTouched(true);
-  }
+  };
 
   const emailInputBlurHandler = event => {
     setEnteredEmailTouched(true);
@@ -35,7 +35,6 @@ const SimpleInput = (props) => {
 
   const formSubmissionHandler = (event) => {
     event.preventDefault();
-
     setEnteredNameTouched(true);
     setEnteredEmailTouched(true);
     if (!enteredNameIsValid || !enteredEmailIsValid) {
@@ -47,7 +46,6 @@ const SimpleInput = (props) => {
     setEnteredName("");
     setEnteredNameTouched(false);
   };
-
 
   return (
     <form onSubmit={formSubmissionHandler}>
