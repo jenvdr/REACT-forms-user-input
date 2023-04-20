@@ -6,11 +6,20 @@ const SimpleInput = (props) => {
   const enteredNameIsValid = enteredName.trim() !== '' ;
   const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
 
+  const [enteredEmail, setEnteredEmail] = useState("");
+  const [enteredEmailTouched, setEnteredEmailTouched] = useState(false);
+  const enteredEmailIsValid = enteredEmail.trim() !== '' && enteredEmail.includes('@') ;
+  const emailInputIsInvalid = !enteredEmailIsValid && enteredEmailTouched;
+
   let formIsValid = false;
 
-  if (enteredNameIsValid) {
+  if (enteredNameIsValid && enteredEmailIsValid) {
     formIsValid = true;
   }
+
+  const emailInputChangeHandler = (event) => {
+    setEnteredEmail(event.target.value);
+  };
 
   const nameInputChangeHandler = (event) => {
     setEnteredName(event.target.value);
@@ -20,14 +29,21 @@ const SimpleInput = (props) => {
     setEnteredNameTouched(true);
   }
 
+  const emailInputBlurHandler = event => {
+    setEnteredEmailTouched(true);
+  }
+
   const formSubmissionHandler = (event) => {
     event.preventDefault();
 
     setEnteredNameTouched(true);
-    if (!enteredNameIsValid) {
+    setEnteredEmailTouched(true);
+    if (!enteredNameIsValid || !enteredEmailIsValid) {
       return;
     }
 
+    setEnteredEmail("");
+    setEnteredEmailTouched(false);
     setEnteredName("");
     setEnteredNameTouched(false);
   };
@@ -46,6 +62,20 @@ const SimpleInput = (props) => {
         />
         {nameInputIsInvalid && (
           <p className="error-text">Name must not be empty.</p>
+        )}
+      </div>
+      <div className={`form-control ${emailInputIsInvalid && " invalid"}`}>
+        <label htmlFor="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          pattern="[^ @]*@[^ @]*"
+          onBlur={emailInputBlurHandler}
+          onChange={emailInputChangeHandler}
+          value={enteredEmail}
+        />
+        {emailInputIsInvalid && (
+          <p className="error-text">Email is invalid.</p>
         )}
       </div>
       <div className="form-actions">
